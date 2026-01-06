@@ -1,0 +1,1 @@
+fun findMax(list: List<Int>): Int? = null

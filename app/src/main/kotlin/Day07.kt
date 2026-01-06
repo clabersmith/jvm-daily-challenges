@@ -1,0 +1,1 @@
+fun compress(s: String) : String = ""

@@ -1,0 +1,1 @@
+fun isUniqueCharacters(input: String): Boolean = false

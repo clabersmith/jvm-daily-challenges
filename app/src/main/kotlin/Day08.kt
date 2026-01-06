@@ -1,0 +1,1 @@
+fun getLongestCommonPrefix(list : List<String> ): String = ""
