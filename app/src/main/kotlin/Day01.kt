@@ -1,0 +1,1 @@
+fun isPalindrome(s: String): Boolean = false
