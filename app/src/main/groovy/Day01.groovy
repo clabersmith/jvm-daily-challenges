@@ -1,5 +1,5 @@
 class Day01Groovy {
     static boolean isPalindrome(String s) {
-        return false
+        return s.reverse() == s
     }
 }

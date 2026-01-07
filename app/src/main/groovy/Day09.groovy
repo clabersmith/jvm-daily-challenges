@@ -1,5 +1,8 @@
 class Day09Groovy {
     static String capitalizeFirst(String input) {
-        return ""
+        input.trim()
+            .tokenize()
+            .collect { it.capitalize() }
+            .join(' ')
     }
 }

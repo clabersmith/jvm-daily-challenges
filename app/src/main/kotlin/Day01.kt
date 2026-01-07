@@ -1,1 +1,1 @@
-fun isPalindrome(s: String): Boolean = false
+fun isPalindrome(s: String): Boolean = s.reversed() == s

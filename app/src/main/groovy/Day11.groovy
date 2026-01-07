@@ -1,5 +1,10 @@
 class Day11Groovy {
     static Integer findMax(List<Integer> numbers) {
-        return null
+        //max throws NoSuchElement exception so check first
+        if (numbers == null || numbers.isEmpty()) {
+            return null
+        }
+
+        return numbers.max()
     }
 }

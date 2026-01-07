@@ -50,7 +50,7 @@ class Day07Spec extends Specification {
         "zzzzzz"  | "z6"
     }
 
-    def "groovy: compress various cases"() {
+    def "groovy: compress multiple cases"() {
         expect:
         Day07Groovy.compress(input) == expected
 

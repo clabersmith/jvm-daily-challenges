@@ -1,5 +1,9 @@
 class Day02Groovy {
     static boolean isPalindrome(String s) {
-        return false
+        def s1 = ""
+        for(i in s.length()-1..0) {
+            s1 += s[i]
+        }
+        return s1 == s
     }
 }
