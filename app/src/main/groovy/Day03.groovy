@@ -1,5 +1,5 @@
 class Day03Groovy {
     static long countVowels(String s) {
-        return 0
+        return s.findAll(/(?i)[aeiou]/).size()  //case insensitive vowel match
     }
 }

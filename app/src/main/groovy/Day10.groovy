@@ -1,5 +1,5 @@
 class Day10Groovy {
     static boolean isUniqueCharacters(String input) {
-        return false
+        input.toSet().size() == input.length()
     }
 }

@@ -1,5 +1,5 @@
 public class Day01 {
     public static boolean isPalindrome(String s) {
-        return false;
+        return new StringBuilder(s).reverse().toString().equals(s);
     }
 }
