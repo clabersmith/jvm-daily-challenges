@@ -1,7 +1,8 @@
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Day12 {
-    public static Integer findAverage(List<Integer> list) {
+    public static BigDecimal findAverage(List<Integer> list) {
         return null;
     }
 }

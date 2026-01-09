@@ -26,7 +26,7 @@ class Day12Spec extends Specification {
         [10, -10, 20]       || 6.666666666666667
         [7]                 || 7.0
         [1, 2]              || 1.5
-        [-1, -2, 2]         || -0.3333333333333333
+        [-1, -2, 2]         || -0.333333333333333
     }
 
     def "kotlin: findAverage works with different inputs"() {
