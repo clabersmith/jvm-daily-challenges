@@ -40,6 +40,7 @@ class Day12Spec extends Specification {
         [-5, 5]                || 0.0
         [100, 200, 300, 400]   || 250.0
         [-3, -3, -3]           || -3.0
+        [1, 0, 0, 0, 0, 0, 0]   || 0.142857142857143
     }
 
     def "groovy: findAverage for Day12.groovy implementation"() {
@@ -51,6 +52,7 @@ class Day12Spec extends Specification {
             [2, 4, 6]             || 4.0
             [3, 0, -3]            || 0.0
             [1, 1, 1, 2]          || 1.25
+            [1, 2, 2]            || 1.666666666666667
             [9, -3]               || 3.0
             [1000, 2000]          || 1500.0
         }
