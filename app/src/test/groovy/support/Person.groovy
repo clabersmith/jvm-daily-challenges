@@ -1,6 +1,6 @@
 package support
 
-class Person {
+class Person implements Comparable<Person> {
     String name
     int age
 
@@ -22,5 +22,17 @@ class Person {
         result = (name != null ? name.hashCode() : 0)
         result = 31 * result + age
         return result
+    }
+
+    @Override
+    int compareTo(Person o) {
+        int nameCmp
+        nameCmp = this.name <=> o.name
+
+        if (nameCmp != 0) {
+            return nameCmp
+        }
+
+        return this.age <=> o.age
     }
 }
