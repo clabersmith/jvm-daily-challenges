@@ -1,0 +1,1 @@
+fun <E : Comparable<E>> isSorted(list : List<E>?): Boolean = false

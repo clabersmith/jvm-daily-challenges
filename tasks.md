@@ -1,27 +1,27 @@
 ### Days 1–20: Strings, Arrays, Collections (Core Skills)
 
-| Day | Task Description                                                | Java                                     | Kotlin                                   | Groovy                                       | Status        |
-|:----|:----------------------------------------------------------------|:-----------------------------------------|:-----------------------------------------|:---------------------------------------------|:--------------|
-| 1   | Write a function that returns true if a string is a palindrome  |                                          |                                          |                                              | ⬜ Not started |
-| 2   | Reverse a string without using built-in reverse functions       |                                          |                                          |                                              | ⬜ Not started |
-| 3   | Count the number of vowels in a string                          |                                          |                                          |                                              | ⬜ Not started |
-| 4   | Remove duplicate characters from a string                       |                                          |                                          |                                              | ⬜ Not started |
-| 5   | Find the first non-repeating character in a string              |                                          |                                          |                                              | ⬜ Not started |
-| 6   | Check if two strings are anagrams                               |                                          |                                          |                                              | ⬜ Not started |
-| 7   | Compress a string by character counts (e.g., aabcc → a2b1c2)    |                                          |                                          |                                              | ⬜ Not started |
-| 8   | Find the longest common prefix among an array of strings        |                                          |                                          |                                              | ⬜ Not started |
-| 9   | Capitalize the first letter of each word in a sentence          |                                          |                                          |                                              | ⬜ Not started |
-| 10  | Determine whether a string contains only unique characters      |                                          |                                          |                                              | ⬜ Not started |
-| 11  | Find the maximum number in a list                               |                                          |                                          |                                              | ⬜ Not started |
-| 12  | Compute the average of a list of integers                       |                                          |                                          |                                              | ⬜ Not started |
-| 13  | Remove all occurrences of a value from a list                   |                                          |                                          |                                              | ⬜ Not started |
-| 14  | Merge two sorted lists                                          |                                          |                                          |                                              | ⬜ Not started |
-| 15  | Return the second largest number in a list                      |                                          |                                          |                                              | ⬜ Not started |
-| 16  | Find the intersection of two lists                              |                                          |                                          |                                              | ⬜ Not started |
-| 17  | Determine if a list is sorted                                   |                                          |                                          |                                              | ⬜ Not started |
-| 18  | Rotate an array by N positions                   git comm       |                                          |                                          |                                              | ⬜ Not started |
-| 19  | Count occurrences of each element in a list                     |                                          |                                          |                                              | ⬜ Not started |
-| 20  | Find the longest word in a sentence                             |                                          |                                          |                                              | ⬜ Not started |
+| Day | Task Description                                               | Java                                     | Kotlin                                   | Groovy                                       | Status        |
+|:----|:---------------------------------------------------------------|:-----------------------------------------|:-----------------------------------------|:---------------------------------------------|:--------------|
+| 1   | Write a function that returns true if a string is a palindrome |                                          |                                          |                                              | ⬜ Not started |
+| 2   | Reverse a string without using built-in reverse functions      |                                          |                                          |                                              | ⬜ Not started |
+| 3   | Count the number of vowels in a string                         |                                          |                                          |                                              | ⬜ Not started |
+| 4   | Remove duplicate characters from a string                      |                                          |                                          |                                              | ⬜ Not started |
+| 5   | Find the first non-repeating character in a string             |                                          |                                          |                                              | ⬜ Not started |
+| 6   | Check if two strings are anagrams                              |                                          |                                          |                                              | ⬜ Not started |
+| 7   | Compress a string by character counts (e.g., aabcc → a2b1c2)   |                                          |                                          |                                              | ⬜ Not started |
+| 8   | Find the longest common prefix among an array of strings       |                                          |                                          |                                              | ⬜ Not started |
+| 9   | Capitalize the first letter of each word in a sentence         |                                          |                                          |                                              | ⬜ Not started |
+| 10  | Determine whether a string contains only unique characters     |                                          |                                          |                                              | ⬜ Not started |
+| 11  | Find the maximum number in a list                              |                                          |                                          |                                              | ⬜ Not started |
+| 12  | Compute the average of a list of integers                      |                                          |                                          |                                              | ⬜ Not started |
+| 13  | Remove all occurrences of a value from a list                  |                                          |                                          |                                              | ⬜ Not started |
+| 14  | Merge two sorted lists                                         |                                          |                                          |                                              | ⬜ Not started |
+| 15  | Return the second largest number in a list                     |                                          |                                          |                                              | ⬜ Not started |
+| 16  | Find the intersection of two lists                             |                                          |                                          |                                              | ⬜ Not started |
+| 17  | Determine if a list is sorted                                  |                                          |                                          |                                              | ⬜ Not started |
+| 18  | Rotate an array by N positions                                 |                                          |                                          |                                              | ⬜ Not started |
+| 19  | Count occurrences of each element in a list                    |                                          |                                          |                                              | ⬜ Not started |
+| 20  | Find the longest word in a sentence                            |                                          |                                          |                                              | ⬜ Not started |
 
 ---
 
