@@ -1,1 +1,2 @@
-fun <E : Comparable<E>> isSorted(list : List<E>?): Boolean = false
+fun <T : Comparable<T>> isSorted(list : List<T>?): Boolean =
+    list?.zipWithNext()?.all { (a, b) -> a <= b } ?: true
