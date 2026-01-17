@@ -51,10 +51,10 @@ class Day17Spec extends Specification {
 
     def "java: test if list of Persons are sorted"() {
         expect:
-        Day17.isSorted(list1) == expected
+        Day17.isSorted(list) == expected
 
         where:
-        list1                                                                               || expected
+        list                                                                                || expected
         null                                                                                || true
         []                                                                                  || true
         [new Person("Alice", 30)]                                                           || true

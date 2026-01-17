@@ -1,0 +1,1 @@
+fun <T> countDistinct(list: List<T>): Map<T, Int> = emptyMap()
