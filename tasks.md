@@ -21,7 +21,7 @@
 | 17  | Determine if a list is sorted                                  | [solution](app/src/main/java/Day17.java) | [solution](app/src/main/kotlin/Day17.kt) | [solution](app/src/main/groovy/Day17.groovy) | ✅ Completed   |
 | 18  | Rotate an array by N positions                                 | [solution](app/src/main/java/Day18.java) | [solution](app/src/main/kotlin/Day18.kt) | [solution](app/src/main/groovy/Day18.groovy) | ✅ Completed   |
 | 19  | Count occurrences of each element in a list                    | [solution](app/src/main/java/Day19.java) | [solution](app/src/main/kotlin/Day19.kt) | [solution](app/src/main/groovy/Day19.groovy) | ✅ Completed   |
-| 20  | Find the longest word in a sentence                            |                                          |                                          |                                              | ⬜ Not started |
+| 20  | Find the longest word in a sentence                            | [solution](app/src/main/java/Day20.java) | [solution](app/src/main/kotlin/Day20.kt) | [solution](app/src/main/groovy/Day20.groovy) | ✅ Completed   |
 
 ---
 
