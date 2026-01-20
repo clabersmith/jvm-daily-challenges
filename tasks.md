@@ -29,7 +29,7 @@
 
 | Day | Task Description                                                | Java                                     | Kotlin                                   | Groovy                                       | Status        |
 |:----|:----------------------------------------------------------------|:-----------------------------------------|:-----------------------------------------|:---------------------------------------------|:--------------|
-| 21  | Implement binary search on a sorted list                        |                                          |                                          |                                              | ⬜ Not started |
+| 21  | Implement binary search on a sorted list                        | [solution](app/src/main/java/Day21.java) | [solution](app/src/main/kotlin/Day21.kt) | [solution](app/src/main/groovy/Day21.groovy) | ✅ Completed   |
 | 22  | Check if a binary tree is height-balanced                       |                                          |                                          |                                              | ⬜ Not started |
 | 23  | Perform breadth-first search (BFS) on a graph                   |                                          |                                          |                                              | ⬜ Not started |
 | 24  | Perform depth-first search (DFS) on a graph                     |                                          |                                          |                                              | ⬜ Not started |
