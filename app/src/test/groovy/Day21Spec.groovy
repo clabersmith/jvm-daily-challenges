@@ -81,7 +81,7 @@ class Day21Spec extends Specification {
 
     def "groovy: find item using binary search in list of Doubles"() {
         expect:
-        def actual = Day21.binarySearchSortedList(list as List<Double>, target)
+        def actual = Day21Groovy.binarySearchSortedList(list as List<Double>, target)
         expected instanceof Closure ? expected(actual) : actual == expected
 
         where:
