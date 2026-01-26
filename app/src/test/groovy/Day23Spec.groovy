@@ -49,64 +49,68 @@ import support.GraphHelper
 class Day23Spec extends Specification {
 
     def setupSpec() {
+        //could just call the static methods directly via GraphHelper but illustrates one of the uses of Groovy's
+        //meta programming features
         GraphHelper.addStaticBuilders()
     }
 
     def "java: perform breadth-wide search of graph"() {
         given:
-        def graph = GraphHelper.buildGraphOfStringsWithNoise(vertex, adjacents) as Graph<String>
+        def graph = Graph.buildGraphOfStringsWithNoise(adjacents) as Graph<String>
 
         expect:
         Day23.doBreadthFirstSearch(vertex, graph) == expected
 
         where:
 
-        vertex      | adjacents                                 | expected
-        'A'         | ['B', 'C']                                | ['A', 'B', 'C']
-        'B'         | []                                        | ['B']
-        'C'         | ['D']                                     | ['C', 'D']
-        'D'         | ['E', 'F', 'G']                           | ['D', 'E', 'F', 'G']
-        'E'         | ['H', 'I', 'J', 'K', 'L']                 | ['E', 'H', 'I', 'J', 'K', 'L']
-        'F'         | ['G', 'H', 'I', 'J', 'K', 'L', 'M']       | ['F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']
-        'LongStart' | ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U']  | ['LongStart', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U']
+        vertex      | adjacents                                                                                                         | expected
+        'A'         | ['A': ['B', 'C'], 'B': [], 'C': [], 'X': ['Z'], 'Z': []]                                                          | ['A', 'B', 'C']
+        'B'         | ['B': [], 'A': ['C'], 'C': ['D'], 'D': []]                                                                        | ['B']
+        'C'         | ['C': ['D'], 'D': [], 'E': ['F'], 'F': []]                                                                        | ['C', 'D']
+        'D'         | ['D': ['E', 'F'], 'E': [], 'F': ['G'], 'G': [], 'Orphan': ['X']]                                                  | ['D', 'E', 'F', 'G']
+        'E'         | ['E': ['H', 'I', 'J',], 'H': [], 'I': [], 'J': ['K', 'L'], 'K': [], 'L': [], 'Noise': []]                         | ['E', 'H', 'I', 'J', 'K', 'L']
+        'F'         | ['F': ['G', 'H', 'I', 'J', 'K', 'L', 'M'], 'G': [], 'H': [], 'I': [], 'J': [], 'K': [], 'L': [], 'M': []]         | ['F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']
+        'LongStart' | ['LongStart': ['N', 'O', 'P', 'Q', 'R'], 'N': [], 'O': [], 'P': [], 'Q': [], 'R': ['S'], 'S': ['T', 'U'], 'T': [], 'U': [], 'Extra': ['X']]
+                                                                                                                                        | ['LongStart', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U']
     }
 
     def "kotlin: perform breadth-wide search of graph"() {
         given:
-        def graph = GraphHelper.buildGraphOfStringsWithNoise(vertex, adjacents) as Graph<String>
+        def graph = Graph.buildGraphOfStringsWithNoise(adjacents) as Graph<String>
 
         expect:
         Day23Kt.doBreadthFirstSearch(vertex, graph) == expected
 
         where:
-        vertex      | adjacents                                 | expected
-        'X'         | ['Y', 'Z']                                | ['X', 'Y', 'Z']
-        'Y'         | []                                        | ['Y']
-        'Z'         | ['W']                                     | ['Z', 'W']
-        'LongX'     | ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-                                                                | ['LongX', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-        'StarNode'  | ['N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11']
-                                                                | ['StarNode', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11']
-        'WideStart' | ['N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12', 'N13', 'N14', 'N15', 'N16', 'N17', 'N18', 'N19', 'N20']
-                                                                | ['WideStart', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12', 'N13', 'N14', 'N15', 'N16', 'N17', 'N18', 'N19', 'N20']
+        vertex      | adjacents                                                                                                          | expected
+        'X'         | ['X': ['Y', 'Z'], 'Y': [], 'Z': ['W']]                                                                             | ['X', 'Y', 'Z', 'W']
+        'Y'         | ['Y': []]                                                                                                          | ['Y']
+        'Z'         | ['Z': ['W'], 'W': []]                                                                                              | ['Z', 'W']
+        'LongX'     | ['LongX': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], 'A': [], 'B': [], 'C': [], 'D': [], 'E': [], 'F': [], 'G': [], 'H': [], 'I': [], 'J': []]
+                                                                                                                                         | ['LongX', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        'StarNode'  | ['StarNode': ['N1','N2','N3','N4','N5','N6','N7','N8','N9','N10','N11'], 'N1': [], 'N2': [], 'N3': [], 'N4': [], 'N5': [], 'N6': [], 'N7': [], 'N8': [], 'N9': [], 'N10': [], 'N11': []]
+                                                                                                                                         | ['StarNode', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11']
+        'WideStart' | ['WideStart': ['N1','N2','N3','N4','N5','N6','N7','N8','N9','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20'], 'N1': [], 'N2': [], 'N3': [], 'N4': [], 'N5': [],
+                       'N6': [], 'N7': [], 'N8': [], 'N9': [], 'N10': [], 'N11': [], 'N12': [], 'N13': [], 'N14': [], 'N15': [], 'N16': [], 'N17': [], 'N18': [], 'N19': [], 'N20': []]
+                                                                                                                                        | ['WideStart', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12', 'N13', 'N14', 'N15', 'N16', 'N17', 'N18', 'N19', 'N20']
     }
 
     def "groovy: perform breadth-wide search of graph"() {
         given:
-        def graph = GraphHelper.buildGraphOfStringsWithNoise(vertex, adjacents) as Graph<String>
+        def graph = Graph.buildGraphOfStringsWithNoise(adjacents) as Graph<String>
 
         expect:
         Day23Groovy.doBreadthFirstSearch(vertex, graph) == expected
 
         where:
-        vertex      | adjacents                                 | expected
-        'Begin'     | ['Alpha', 'Beta', 'Gamma']                | ['Begin', 'Alpha', 'Beta', 'Gamma']
-        'Alpha'     | ['Delta', 'Epsilon']                      | ['Alpha', 'Delta', 'Epsilon']
-        'Solo'      | []                                        | ['Solo']
-        'HubNode'   | ['N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12']
-                                                                | ['HubNode', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12']
-        'WideStart' | ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14','A15']
-                                                                | ['WideStart','A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14','A15']
+        vertex      | adjacents                                                                                                         | expected
+        'Begin'     | ['Begin': ['Alpha', 'Beta', 'Gamma'], 'Alpha': [], 'Beta': [], 'Gamma': []]                                       | ['Begin', 'Alpha', 'Beta', 'Gamma']
+        'Alpha'     | ['Alpha': ['Delta', 'Epsilon'], 'Delta': [], 'Epsilon': []]                                                       | ['Alpha', 'Delta', 'Epsilon']
+        'Solo'      | ['Solo': []]                                                                                                      | ['Solo']
+        'HubNode'   | ['HubNode': ['N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12'], 'N1': [], 'N2': [], 'N3': [], 'N4': [], 'N5': [], 'N6': [], 'N7': [], 'N8': [], 'N9': [], 'N10': [], 'N11': [], 'N12': []]
+                                                                                                                                        | ['HubNode', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12']
+        'WideStart' | ['WideStart': ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14','A15'], 'A1': [], 'A2': [], 'A3': [], 'A4': [], 'A5': [], 'A6': [], 'A7': [], 'A8': [], 'A9': [], 'A10': [], 'A11': [], 'A12': [], 'A13': [], 'A14': [], 'A15': []]
+                                                                                                                                        | ['WideStart','A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13','A14','A15']
     }
 
 }

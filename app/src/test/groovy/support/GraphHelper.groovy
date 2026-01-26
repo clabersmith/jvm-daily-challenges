@@ -4,35 +4,50 @@ import shared.Graph
 
 class GraphHelper {
 
+    /**
+     * Install static builder helpers onto the Graph class for tests.
+     *
+     * This is an example of Groovy's dynamic programming support, as it
+     * adds a static method `buildGraphOfStringsWithNoise(Map)` to the `Graph`
+     * metaClass that delegates to the local `buildGraphOfStringsWithNoise(...)`
+     * helper. This allows tests to call `Graph.buildGraphOfStringsWithNoise(...)`.
+     *
+     */
     static void addStaticBuilders() {
-        Graph.metaClass.static.buildGraphOfStringsWithNoise = { target, adjacents -> buildGraphOfStringsWithNoise(target, adjacents)}
+        Graph.metaClass.static.buildGraphOfStringsWithNoise = { adjacents -> buildGraphOfStringsWithNoise(adjacents) }
     }
 
-    /**
-     * Build an adjacency map where `target` has the given `adjacents`.
-     * Adds up to `maxExtra` unrelated vertices and edges (they won't reference
-     * the `target` or its adjacents). If `seed` > 0 a deterministic Random is used.
+     /**
+     * Build a Graph\<String\> from the given adjacency map and optionally add random
+     * "extra" vertices with edges among them (noise).
      *
-     * Example:
-     *   buildGraphWithNoise('A', ['B','C'], 2, 42)
+     * @param adjacencyMap map of vertex -> list of neighbor vertex names used to
+     *        populate the graph
+     * @param maxExtra maximum number of extra unrelated vertices to add (0..maxExtra)
+     * @param seed optional random seed (0L for non-deterministic)
+     * @return a Graph\<String\> containing the provided vertices and any added extras
      */
-    static Graph<String> buildGraphOfStringsWithNoise(String target, List<String> adjacents,
-            int maxExtra = 3, long seed = 0L) {
-
+    static Graph<String> buildGraphOfStringsWithNoise(Map<String, List<String>> adjacencyMap,
+               int maxExtra = 3, long seed = 0L) {
         def rnd = (seed > 0) ? new Random(seed) : new Random()
         def graph = new Graph<String>()
 
-        // Add target and its adjacents
-        graph.addVertex(target)
-        adjacents.each { node ->
-            // addEdge will ensure both vertices exist
-            graph.addEdge(target, node)
+        // Populate graph from the given adjacency map
+        adjacencyMap.each { String vertex, List<String> neighbors ->
+            graph.addVertex(vertex)
+            if (neighbors) {
+                neighbors.each { neighbor ->
+                    // addEdge will ensure both vertices exist
+                    graph.addEdge(vertex, neighbor)
+                }
+            }
         }
 
         // Decide how many extra unrelated vertices to add (0..maxExtra)
         int extraCount = (maxExtra > 0) ? rnd.nextInt(maxExtra + 1) : 0
-        def existing = new HashSet(adjacents)
-        existing.add(target)
+        def existing = new HashSet(adjacencyMap.keySet())
+        adjacencyMap.values().each { list -> if (list) existing.addAll(list) }
+
         def extras = (1..extraCount).collect { idx ->
             def name = uniqueExtraName(idx, rnd, existing)
             existing.add(name)
@@ -42,7 +57,7 @@ class GraphHelper {
         // Initialize extras in the graph
         extras.each { graph.addVertex(it) }
 
-        // Add edges among extras only (no references to target or its adjacents)
+        // Add edges among extras only (no references to input vertices)
         extras.each { v ->
             int outDeg = rnd.nextInt(3) // 0..2 outgoing edges
             def possible = extras.findAll { it != v }
@@ -52,7 +67,6 @@ class GraphHelper {
             neighbors.unique().each { n -> graph.addEdge(v, n) }
         }
 
-        // Return the populated Graph object
         graph
     }
 
