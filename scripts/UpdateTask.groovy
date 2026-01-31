@@ -27,6 +27,7 @@ updateTask(basePath, baseName)
  * @param baseName base class name used to build filenames
  */
 static def updateTask(String basePath, String baseName) {
+    def specLink   = "[spec](${basePath}/test/groovy/${baseName}Spec.groovy) "
     def javaLink   = "[solution](${basePath}/main/java/${baseName}.java)"
     def kotlinLink = "[solution](${basePath}/main/kotlin/${baseName}.kt)"
     def groovyLink = "[solution](${basePath}/main/groovy/${baseName}.groovy)"
@@ -51,10 +52,11 @@ static def updateTask(String basePath, String baseName) {
             def widths = cells.collect { it.length() }
 
             // Replace only the content (keep surrounding spaces)
-            cells[3] = fit(javaLink,   widths[3])
-            cells[4] = fit(kotlinLink, widths[4])
-            cells[5] = fit(groovyLink, widths[5])
-            cells[6] = fit(status,     widths[6])
+            cells[3] = fit(specLink,   widths[3])
+            cells[4] = fit(javaLink,   widths[4])
+            cells[5] = fit(kotlinLink, widths[5])
+            cells[6] = fit(groovyLink, widths[6])
+            cells[7] = fit(status,     widths[7])
 
             // Re-pad each cell to original width
             cells = cells.withIndex().collect { cell, i ->
