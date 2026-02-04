@@ -21,90 +21,85 @@ import support.Employee
  */
 class Day19Spec extends Specification {
 
-    def "java: count distinct elements in list of Integers"() {
-        expect:
-        Day19.countDistinct(list) == expected
-
-        where:
-        list                                        || expected
-        [1, 2, 2, 3, 3, 3]                          || [1: 1, 2: 2, 3: 3]
-        []                                          || [:]
-        [5, 5, 5, 5]                                || [5: 4]
-        [1, -1, 1, 0]                               || [1: 2, (-1): 1, 0: 1]
-    }
-
-    def "java: count distinct elements in list of Strings"() {
-        expect:
-        Day19.countDistinct(list) == expected
-
-        where:
-        list                                        || expected
-        ["apple", "banana", "apple"]                || ["apple": 2, "banana": 1]
-        []                                          || [:]
-        ["x", "x"]                                  || ["x": 2]
-        ["a", "A", "a", " "]                        || ["a": 2, "A": 1, " ": 1]
-    }
-
-    def "java: count distinct elements in list of Employees"() {
-        expect:
-        Day19.countDistinct(list) == expected
-
-        where:
-        list                                                                                                || expected
-        [new Employee(1, "Alice", 30), new Employee(1, "Alice", 30), new Employee(2, "Bob", 25)]            || [(new Employee(1, "Alice", 30)): 2, (new Employee(2, "Bob", 25)): 1]
-        []                                                                                                  || [:]
-        [new Employee(1, "Charlie", 40), new Employee(2, "Charlie", 40), new Employee(1, "Charlie", 40)]    || [(new Employee(1, "Charlie", 40)): 2, (new Employee(2, "Charlie", 40)): 1]
-        [new Employee(3, "Dana", 28), new Employee(3, "Dana", 28), new Employee(3, "Dana", 28), new Employee(4, "Eve", 28)]
-                || [(new Employee(3, "Dana", 28)): 3, (new Employee(4, "Eve", 28)): 1]
-    }
-
-    def "kotlin: count distinct elements in list of Integers"() {
-            expect:
-            Day19Kt.countDistinct(list) == expected
-
-            where:
-            list                                    || expected
-            [1, 2, 2, 3, 3, 3]                      || [1: 1, 2: 2, 3: 3]
-            []                                      || [:]
-            [0, 0, 1, -1]                           || [0: 2, 1: 1, (-1): 1]
-            [7, 7, 7, 7, 7]                         || [7: 5]
+    private static <T> Object countDistinct(String impl, List<T> list) {
+        switch(impl) {
+            case 'java':   return Day19.countDistinct(list)
+            case 'kotlin':   return Day19Kt.countDistinct(list)
+            case 'groovy':   return Day19Groovy.countDistinct(list)
+            default: throw new IllegalArgumentException("Unknown impl: $impl")
         }
-
-    def "kotlin: count distinct elements in list of Strings"() {
-        expect:
-        Day19Kt.countDistinct(list) == expected
-
-        where:
-        list                                        || expected
-        ["apple", "banana", "apple"]                || ["apple": 2, "banana": 1]
-        []                                          || [:]
-        ["x", "x", "X"]                             || ["x": 2, "X": 1]
-        [" ", " ", "a"]                             || [" ": 2, "a": 1]
     }
 
-    def "groovy: count distinct elements in list of Integers"() {
+    def "#impl: count distinct elements in list of Integers"() {
         expect:
-        Day19Groovy.countDistinct(list) == expected
+        countDistinct(impl as String, list as List<Integer>) == expected
 
         where:
-        list                                        || expected
-        [1, 2, 2, 3, 3, 3]                          || [1: 1, 2: 2, 3: 3]
-        []                                          || [:]
-        [5, 5, 5, 5]                                || [5: 4]
-        [1, -1, 1, 0]                               || [1: 2, (-1): 1, 0: 1]
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        //list                 ||expected
+                        [[1, 2, 2, 3, 3, 3],   [1: 1, 2: 2, 3: 3]],
+                        [[],                   [:]],
+                        [[5, 5, 5, 5],         [5: 4]],
+                        [[1, -1, 1, 0],        [1: 2, (-1): 1, 0: 1]]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
     }
 
-    def "groovy: count distinct elements in list of Employees"() {
+    def "#impl: count distinct elements in list of Strings"() {
         expect:
-        Day19Groovy.countDistinct(list) == expected
+        countDistinct(impl as String, list as List<String>) == expected
 
         where:
-        list                                                                                                || expected
-        [new Employee(1, "Alice", 30), new Employee(1, "Alice", 30), new Employee(2, "Bob", 25)]            || [(new Employee(1, "Alice", 30)): 2, (new Employee(2, "Bob", 25)): 1]
-        []                                                                                                  || [:]
-        [new Employee(1, "Charlie", 40), new Employee(2, "Charlie", 40), new Employee(1, "Charlie", 40)]    || [(new Employee(1, "Charlie", 40)): 2, (new Employee(2, "Charlie", 40)): 1]
-        [new Employee(3, "Dana", 28), new Employee(3, "Dana", 28), new Employee(3, "Dana", 28), new Employee(4, "Eve", 28)]
-                || [(new Employee(3, "Dana", 28)): 3, (new Employee(4, "Eve", 28)): 1]
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        [["apple", "banana", "apple"],   ["apple": 2, "banana": 1]],
+                        [[],                             [:]],
+                        [["x", "x"],                     ["x": 2]],
+                        [["a", "A", "a", " "],           ["a": 2, "A": 1, " ": 1]]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
+    }
+
+    def "#impl: count distinct elements in list of Employees"() {
+        expect:
+        countDistinct(impl as String, list as List<Employee>) == expected
+
+        where:
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                    //list
+                    //expected
+                    [
+                        [new Employee(1, "Alice", 30), new Employee(1, "Alice", 30), new Employee(2, "Bob", 25)],
+                        [(new Employee(1, "Alice", 30)): 2, (new Employee(2, "Bob", 25)): 1]
+                    ],
+                    [
+                        [],
+                        [:]
+                    ],
+                    [
+                        [new Employee(1, "Charlie", 40), new Employee(2, "Charlie", 40), new Employee(1, "Charlie", 40)],
+                        [(new Employee(1, "Charlie", 40)): 2, (new Employee(2, "Charlie", 40)): 1]
+                    ],
+                    [
+                        [new Employee(3, "Dana", 28), new Employee(3, "Dana", 28), new Employee(3, "Dana", 28), new Employee(4, "Eve", 28)],
+                        [(new Employee(3, "Dana", 28)): 3, (new Employee(4, "Eve", 28)): 1]
+                    ]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
     }
 
 }

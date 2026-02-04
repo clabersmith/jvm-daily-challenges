@@ -34,97 +34,130 @@ import support.Person
  */
 class Day17Spec extends Specification {
 
-    def "java: test if list of Integers are sorted"() {
-        expect:
-        Day17.isSorted(list) == expected
-
-        where:
-        list                        || expected
-        []                          || true
-        [42]                        || true
-        [-3, -1, 0, 2]              || true
-        [2, 2, 2]                   || true
-        [1, 3, 2, 4]                || false
-        [1, 2, 3, 0]                || false
-        [5, 4, 3, 2, 1]             || false
+    private static Object isSorted(String impl, List list) {
+        switch(impl) {
+            case 'java':   return Day17.isSorted(list)
+            case 'kotlin':   return Day17Kt.isSorted(list)
+            case 'groovy':   return Day17Groovy.isSorted(list)
+            default: throw new IllegalArgumentException("Unknown impl: $impl")
+        }
     }
 
-    def "java: test if list of Persons are sorted"() {
+    def "#impl: test if list of Integers are sorted"() {
         expect:
-        Day17.isSorted(list) == expected
+        isSorted(impl as String, list as List<Integer>) == expected
 
         where:
-        list                                                                                || expected
-        null                                                                                || true
-        []                                                                                  || true
-        [new Person("Alice", 30)]                                                           || true
-        [new Person("Alice", 30), new Person("Bob", 25), new Person("Charlie", 20)]         || true
-        [new Person("Alice", 20), new Person("Alice", 30)]                                  || true
-        [new Person("Charlie", 35), new Person("Charlie", 30)]                              || false
-        [new Person("Bob", 40), new Person("Alice", 25)]                                    || false
-        [new Person("Alice", 20), new Person("Charlie", 25), new Person("Bob", 30)]         || false
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        //list                        ||expected
+                        [[],                          true],
+                        [[42],                        true],
+                        [[-3, -1, 0, 2],              true],
+                        [[2, 2, 2],                   true],
+                        [[1, 3, 2, 4],                false],
+                        [[1, 2, 3, 0],                false],
+                        [[5, 4, 3, 2, 1],             false],
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
     }
 
-    def "kotlin: test if list of Longs are sorted"() {
+    def "#impl: test if list of Persons are sorted"() {
         expect:
-        Day17Kt.isSorted(list) == expected
+        isSorted(impl as String, list as List) == expected
 
         where:
-        list                        || expected
-        []                          || true
-        null                        || true
-        [42L]                       || true
-        [-3L, -1L, 0L, 2L]          || true
-        [2L, 2L, 2L]                || true
-        [1L, 3L, 2L, 4L]            || false
-        [1L, 2L, 3L, 0L]            || false
-        [5L, 4L, 3L, 2L, 1L]        || false
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        //list
+                        //expected
+                        [
+                            null,
+                            true
+                        ],
+                        [
+                            [],
+                            true
+                        ],
+                        [
+                            [new Person("Alice", 30)],
+                            true
+                        ],
+                        [
+                            [new Person("Alice", 30), new Person("Bob", 25), new Person("Charlie", 20)],
+                            true
+                        ],
+                        [
+                            [new Person("Alice", 20), new Person("Alice", 30)],
+                            true
+                        ],
+                        [
+                            [new Person("Charlie", 35), new Person("Charlie", 30)],
+                            false
+                        ],
+                        [
+                            [new Person("Bob", 40), new Person("Alice", 25)],
+                            false
+                        ],
+                        [
+                            [new Person("Alice", 20), new Person("Charlie", 25), new Person("Bob", 30)],
+                            false
+                        ],
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
     }
 
-    def "kotlin: test if list of Strings are sorted"() {
+    def "#impl: test if list of BigDecimals are sorted"() {
         expect:
-        Day17Kt.isSorted(list) == expected
+        isSorted(impl as String, list as List) == expected
 
         where:
-        list                            || expected
-        []                              || true
-        ["a"]                           || true
-        ["a", "b", "c", "d"]            || true
-        ["a", "b", "b", "c"]            || true
-        ["a", "c", "b", "d"]            || false
-        ["z", "y", "x"]                 || false
-        ["apple", "banana", "apple"]    || false
-    }
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                //list
+                //expected
+                [
+                    [
+                        [],
+                        true
+                    ],
+                    [
+                        [new BigDecimal("42")],
+                        true
+                    ],
+                    [
+                        [new BigDecimal("-3"), new BigDecimal("-1"), new BigDecimal("0"), new BigDecimal("2")],
+                        true
+                    ],
+                    [
+                        [new BigDecimal("2"), new BigDecimal("2"), new BigDecimal("2")],
+                        true
+                    ],
+                    [
+                        [new BigDecimal("1"), new BigDecimal("3"), new BigDecimal("2"), new BigDecimal("4")],
+                        false
+                    ],
+                    [
+                        [new BigDecimal("1"), new BigDecimal("2"), new BigDecimal("3"), new BigDecimal("0")],
+                        false
+                    ],
+                    [
+                        [new BigDecimal("5"), new BigDecimal("4"), new BigDecimal("3"), new BigDecimal("2"), new BigDecimal("1")],
+                        false
+                    ],
+                ]
+        ].combinations()
 
-    def "groovy: test if list of BigDecimals are sorted"() {
-        expect:
-        Day17Groovy.isSorted(list) == expected
-
-        where:
-        list                                                                                                        || expected
-        []                                                                                                          || true
-        [new BigDecimal("42")]                                                                                      || true
-        [new BigDecimal("-3"), new BigDecimal("-1"), new BigDecimal("0"), new BigDecimal("2")]                      || true
-        [new BigDecimal("2"), new BigDecimal("2"), new BigDecimal("2")]                                             || true
-        [new BigDecimal("1"), new BigDecimal("3"), new BigDecimal("2"), new BigDecimal("4")]                        || false
-        [new BigDecimal("1"), new BigDecimal("2"), new BigDecimal("3"), new BigDecimal("0")]                        || false
-        [new BigDecimal("5"), new BigDecimal("4"), new BigDecimal("3"), new BigDecimal("2"), new BigDecimal("1")]   || false
-    }
-
-    def "groovy: test if list of Strings are sorted"() {
-        expect:
-        Day17Groovy.isSorted(list) == expected
-
-        where:
-        list                            || expected
-        []                              || true
-        null                            || true
-        ["a"]                           || true
-        ["a", "b", "c", "d"]            || true
-        ["a", "b", "b", "c"]            || true
-        ["a", "c", "b", "d"]            || false
-        ["z", "y", "x"]                 || false
-        ["apple", "banana", "apple"]    || false
+        list     = data[0]
+        expected = data[1]
     }
 
 }

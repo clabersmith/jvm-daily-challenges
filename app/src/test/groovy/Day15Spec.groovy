@@ -33,88 +33,83 @@ import spock.lang.Specification
  */
 class Day15Spec extends Specification {
 
-    def "java: find the second largest for list of Integers"() {
-        expect:
-        Day15.findSecondLargest(list as List<Integer>) == expected
-
-        where:
-        list                      || expected
-        [1, 2, 3, 4, 5]           || 4
-        [5, 5, 4, 3]              || 4
-        [10, 7]                   || 7
-        [2, 2, 2]                 || null
-        null                      || null
-        [42]                      || null
-        [5, 4, 5, 3]              || 4
-        [-1, -2, -3]             || -2
-        [1, null, 2]              || null
-    }
-
-    def "java: find the second largest for list of Floats"() {
-        expect:
-        Day15.findSecondLargest(list as List<Float>) == expected
-
-        where:
-        list                             || expected
-        [1.0f, 2.0f, 3.0f, 4.0f, 5.0f]   || 4.0f
-        [5.0f, 5.0f, 4.0f, 3.0f]         || 4.0f
-        [10.0f, 7.0f]                    || 7.0f
-        [2.0f, 2.0f, 2.0f]               || null
-        null                             || null
-        [42.0f]                          || null
-        [5.0f, 4.0f, 5.0f, 3.0f]         || 4.0f
-        [-1.0f, -2.0f, -3.0f]            || -2.0f
-        [1.0f, null, 2.0f]               || null
-    }
-
-    def "kotlin: find the second largest for list of Integers"() {
-            expect:
-            Day15Kt.findSecondLargest(list as List<Integer>) == expected
-
-            where:
-            list                             || expected
-            [3, 1, 2]                        || 2
-            [0, 100, 50, 100]                || 50
-            [-10, -5, -5, -20]               || -10
-            [100]                            || null
-            [null, 1, 2]                     || null
+    private static Object findSecondLargest(String impl, List list) {
+        switch(impl) {
+            case 'java':   return Day15.findSecondLargest(list)
+            case 'kotlin': return Day15Kt.findSecondLargest(list)
+            case 'groovy': return Day15Groovy.findSecondLargest(list)
+            default: throw new IllegalArgumentException("Unknown impl: $impl")
         }
-
-    def "kotlin: find the second largest for list of Shorts"() {
-        expect:
-        Day15Kt.findSecondLargest(list as List<Short>) == expected
-
-        where:
-        list                                     || expected
-        [3 as Short, 1 as Short, 2 as Short]     || 2 as Short
-        [Short.MAX_VALUE, Short.MIN_VALUE, 123 as Short] || 123 as Short
-        [7 as Short, 7 as Short, 6 as Short]     || 6 as Short
-        [4 as Short, 4 as Short]                 || null
-        null                                     || null
     }
 
-    def "groovy: find the second largest for list of Integers"() {
+    def "#impl: find the second largest for list of Integers"() {
         expect:
-        Day15Groovy.findSecondLargest(list as List<Integer>) == expected
+        findSecondLargest(impl as String, list as List<Integer>) == expected
 
         where:
-        list                    || expected
-        [8, 3, 5, 8]            || 5
-        [2, 2]                  || null
-        null                    || null
-        [10]                    || null
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        // list                    || expected
+                        [[1, 2, 3, 4, 5],           4],
+                        [[5, 5, 4, 3],              4],
+                        [[10, 7],                   7],
+                        [[2, 2, 2],                 null],
+                        [null,                      null],
+                        [[42],                      null],
+                        [[5, 4, 5, 3],              4],
+                        [[-1, -2, -3],             -2],
+                        [[1, null, 2],              null]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
     }
 
-    def "groovy: find the second largest for list of Doubles"() {
+    def "#impl: find the second largest for list of Floats"() {
         expect:
-        Day15Groovy.findSecondLargest(list as List<Double>) == expected
+        findSecondLargest(impl as String, list as List<Float>) == expected
 
         where:
-        list                                         || expected
-        [1.0d, 3.5d, 2.2d, 3.5d]                     || 2.2d
-        [5.0d, 5.0d]                                 || null
-        null                                         || null
-        [7.7d]                                       || null
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        // list                           || expected
+                        [[1.0f, 2.0f, 3.0f, 4.0f, 5.0f],   4.0f],
+                        [[5.0f, 5.0f, 4.0f, 3.0f],         4.0f],
+                        [[10.0f, 7.0f],                    7.0f],
+                        [[2.0f, 2.0f, 2.0f],               null],
+                        [null,                             null],
+                        [[42.0f],                          null],
+                        [[5.0f, 4.0f, 5.0f, 3.0f],         4.0f],
+                        [[-1.0f, -2.0f, -3.0f],            -2.0f],
+                        [[1.0f, null, 2.0f],               null]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
     }
 
+    def "#impl: find the second largest for list of Shorts"() {
+        expect:
+        findSecondLargest(impl as String, list as List<Short>) == expected
+
+        where:
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        // list                                            || expected
+                        [[3 as Short, 1 as Short, 2 as Short],             2 as Short],
+                        [[Short.MAX_VALUE, Short.MIN_VALUE, 123 as Short], 123 as Short],
+                        [[7 as Short, 7 as Short, 6 as Short],             6 as Short],
+                        [[4 as Short, 4 as Short],                         null],
+                        [null,                                             null]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        expected = data[1]
+    }
 }

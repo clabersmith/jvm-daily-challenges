@@ -31,74 +31,99 @@ import support.Person
  */
 class Day18Spec extends Specification {
 
-    def "java: rotate array of Integers"() {
-        expect:
-        Day18.rotateArray(array as Integer[], n) == expected
-
-        where:
-        array                      | n                          || expected
-        [1, 2, 3, 4, 5]            | 2                          || [4, 5, 1, 2, 3] as Integer[]
-        [1, 2, 3, 4, 5]            | -1                         || [2, 3, 4, 5, 1] as Integer[]
-        [1, 2, 3, 4, 5]            | 5                          || [1, 2, 3, 4, 5] as Integer[]
-        [1, 2, 3, 4, 5]            | 7                          || [4, 5, 1, 2, 3] as Integer[]
-        []                         | 3                          || [] as Integer[]
-        [42]                       | 10                         || [42] as Integer[]
-        [1, 2, 2, 3]               | 2                          || [2, 3, 1, 2] as Integer[]
-        [1, 2]                     | 1                          || [2, 1] as Integer[]
+    private static <T> Object rotateArray(String impl, T[] array, int n) {
+        switch(impl) {
+            case 'java':   return Day18.rotateArray(array, n)
+            case 'kotlin':   return Day18Kt.rotate(array, n)
+            case 'groovy':   return Day18Groovy.rotateArray(array, n)
+            default: throw new IllegalArgumentException("Unknown impl: $impl")
+        }
     }
 
-    def "java: rotate array of Strings"() {
+    def "#impl: rotate array of Integers"() {
         expect:
-        Day18.rotateArray(array as String[], n) == expected
+        rotateArray(impl as String, array as Integer[], n as int) == expected
 
         where:
-        array                        | n                        || expected
-        ["a", "b", "c"]              | 3                        || ["a", "b", "c"] as String[]
-        ["x", "y", "z", "w"]         | -1                       || ["y", "z", "w", "x"] as String[]
-        ["a", "b", "c"]              | 2                        || ["b", "c", "a"] as String[]
-        []                           | 1                        || [] as String[]
-        ["a", "b", "a", "c"]         | -2                       || ["a", "c", "a", "b"] as String[]
+        [impl, data] << [
+            ['java', 'kotlin', 'groovy'],
+            [
+                // array                       | n   || expected
+                [[1, 2, 3, 4, 5],                2,      [4, 5, 1, 2, 3]],
+                [[1, 2, 3, 4, 5],               -1,      [2, 3, 4, 5, 1]],
+                [[1, 2, 3, 4, 5],                5,      [1, 2, 3, 4, 5]],
+                [[1, 2, 3, 4, 5],                7,      [4, 5, 1, 2, 3]],
+                [[],                             3,      []],
+                [[42],                          10,      [42]],
+                [[1, 2, 2, 3],                   2,      [2, 3, 1, 2]],
+                [[1, 2],                         1,      [2, 1]]
+            ]
+        ].combinations()
+
+        array    = data[0]
+        n        = data[1]
+        expected = data[2] as Integer[]
     }
 
-    def "java: rotate array of Person"() {
+    def "#impl: rotate array of Strings"() {
         expect:
-        Day18.rotateArray(array as Person[], n) == expected
+        rotateArray(impl as String, array as String[], n as int) == expected
 
         where:
-        array                                                                                               | n         || expected
-        [new Person("Alice", 30), new Person("Bob", 25), new Person("Carol", 40)]                           | 1         || [new Person("Carol", 40), new Person("Alice", 30), new Person("Bob", 25)] as Person[]
-        [new Person("Alice", 30), new Person("Bob", 25), new Person("Bob", 55)]                             | 2         || [new Person("Bob", 25), new Person("Bob", 55), new Person("Alice", 30)] as Person[]
-        [new Person("Dave", 20), new Person("Eve", 22), new Person("Frank", 24), new Person("Grace", 26)]   | 3         || [new Person("Eve", 22), new Person("Frank", 24), new Person("Grace", 26), new Person("Dave", 20)] as Person[]
-        [new Person("Hank", 50), new Person("Ivy", 55), new Person("Jack", 60)]                             | -1        || [new Person("Ivy", 55), new Person("Jack", 60), new Person("Hank", 50)] as Person[]
+        [impl, data] << [
+            ['java', 'kotlin', 'groovy'],
+            [
+                // array                      | n   || expected
+                [["a", "b", "c"],               3,      ["a", "b", "c"]],
+                [["x", "y", "z", "w"],         -1,      ["y", "z", "w", "x"]],
+                [["a", "b", "c"],               2,      ["b", "c", "a"]],
+                [[],                            1,      []],
+                [["a", "b", "a", "c"],         -2,      ["a", "c", "a", "b"]]
+            ]
+        ].combinations()
+
+        array    = data[0]
+        n        = data[1]
+        expected = data[2] as String[]
     }
 
-    def "kotlin: rotate array of Integers"() {
+    def "#impl: rotate array of Persons"() {
         expect:
-        Day18Kt.rotate(array as Integer[], n) == expected
+        rotateArray(impl as String, array as Person[], n as int) == expected
 
         where:
-        array                    | n                            || expected
-        [10, 20, 30, 40, 50]     | 3                            || [30, 40, 50, 10, 20] as Integer[]
-        [5, 6, 7, 8, 9]          | -2                           || [7, 8, 9, 5, 6] as Integer[]
-        [2, 4, 6, 8]             | 4                            || [2, 4, 6, 8] as Integer[]
-        [0]                      | -5                           || [0] as Integer[]
-        [3, 3, 3, 3]             | 1                            || [3, 3, 3, 3] as Integer[]
-        [9, 8, 7]                | 5                            || [8, 7, 9] as Integer[]
-        [1, 2, 3, 4]             | -3                           || [4, 1, 2, 3] as Integer[]
-        [7, 7, 8, 9]             | 2                            || [8, 9, 7, 7] as Integer[]
-    }
+        [impl, data] << [
+            ['java', 'kotlin', 'groovy'],
+            [
+                // array
+                // n
+                // expected
+                [
+                    [new Person("Alice", 30), new Person("Bob", 25), new Person("Carol", 40)],
+                    1,
+                    [new Person("Carol", 40), new Person("Alice", 30), new Person("Bob", 25)]
+                ],
+                [
+                    [new Person("Alice", 30), new Person("Bob", 25), new Person("Bob", 55)],
+                    2,
+                    [new Person("Bob", 25), new Person("Bob", 55), new Person("Alice", 30)]
+                ],
+                [
+                    [new Person("Dave", 20), new Person("Eve", 22), new Person("Frank", 24), new Person("Grace", 26)],
+                    3,
+                    [new Person("Eve", 22), new Person("Frank", 24), new Person("Grace", 26), new Person("Dave", 20)]
+                ],
+                [
+                    [new Person("Hank", 50), new Person("Ivy", 55), new Person("Jack", 60)],
+                    -1,
+                    [new Person("Ivy", 55), new Person("Jack", 60), new Person("Hank", 50)]
+                ]
+            ]
+        ].combinations()
 
-    def "groovy: rotate array of Strings using Day18Groovy"() {
-        expect:
-        Day18Groovy.rotateArray(array as String[], n) == expected
-
-        where:
-        array                        | n                        || expected
-        ["a", "b", "c"]              | 3                        || ["a", "b", "c"] as String[]
-        ["x", "y", "z", "w"]         | -1                       || ["y", "z", "w", "x"] as String[]
-        ["a", "b", "c"]              | 2                        || ["b", "c", "a"] as String[]
-        []                           | 1                        || [] as String[]
-        ["a", "b", "a", "c"]         | -2                       || ["a", "c", "a", "b"] as String[]
+        array    = data[0]
+        n        = data[1]
+        expected = data[2] as Person[]
     }
 
 }

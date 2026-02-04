@@ -27,102 +27,79 @@ import support.Person
  */
 class Day13Spec extends Specification {
 
-    @Shared Person p1 = new Person("Alice", 30)
-    @Shared Person p2 = new Person("Bob", 25)
-    @Shared Person p3 = new Person("Alice", 30) // equal to p1
-
-    def "java: remove value from list of Integers"() {
-        expect:
-        Day13.removeValueFromList(value, list) == expected
-
-        where:
-        list                           | value   || expected
-        []                             | 2       || []
-        [1, 2, 3, 2, 4]                | 2       || [1, 3, 4]
-        [5, 6, 7]                      | 2       || [5, 6, 7]
-        [1, 2, 3, 2, 8]                | 3       || [1, 2, 2, 8]
-        [2, 2, 2]                      | 2       || []
+    private static Object removeValueFromList(String impl, Object value, List list) {
+        switch(impl) {
+            case 'java':   return Day13.removeValueFromList(value, list)
+            case 'kotlin': return Day13Kt.removeValueFromList(value, list)
+            case 'groovy': return Day13Groovy.removeValueFromList(value, list)
+            default: throw new IllegalArgumentException("Unknown impl: $impl")
+        }
     }
 
-    def "java: remove value from list of Strings"() {
+    def "#impl: remove value from list of Integers"() {
         expect:
-        Day13.removeValueFromList(value, list) == expected
+        removeValueFromList(impl as String, value, list as List) == expected
 
         where:
-        list                          | value || expected
-        []                            | "a"   || []
-        ["a", "b", "a", "c"]          | "a"   || ["b", "c"]
-        ["x", "y"]                    | "z"   || ["x", "y"]
-        ["a", "a"]                    | "a"   || []
-        ["a", "b"]                    | null  || ["a", "b"]
+        [impl, data] << [
+                ['java', 'kotlin', 'groovy'],
+                [
+                        // list            | value || expected
+                        [[],                2,      []],
+                        [[1, 2, 3, 2, 4],   2,      [1, 3, 4]],
+                        [[5, 6, 7],         2,      [5, 6, 7]],
+                        [[1, 2, 3, 2, 8],   3,      [1, 2, 2, 8]],
+                        [[2, 2, 2],         2,      []]
+                ]
+        ].combinations()  //returns cartesian product of impl and data
+
+        list     = data[0]
+        value    = data[1]
+        expected = data[2]
     }
 
-    @Unroll("Iteration #iterationIndex of java Persons test")
-    def "java: remove value from list of Persons"() {
+    def "#impl: remove value from list of Strings"() {
         expect:
-        Day13.removeValueFromList(value, list) == expected
+        removeValueFromList(impl as String, value, list as List) == expected
 
         where:
-        list                       | value || expected
-        [p1, p2, p3]               | p1    || [p2]
-        []                         | p1    || []
-        [p1, p1, p2]               | p1    || [p2]
-        [p1, p2, p3]               | p2    || [p1, p3]
-        [null]                     | p1    || [null]
+        [impl, data] << [
+                ['java','kotlin','groovy'],
+                [
+                        // list               | value  || expected
+                        [[],                   "a",    []],
+                        [["a", "b", "a", "c"], "a",    ["b", "c"]],
+                        [["x", "y"],           "z",    ["x", "y"]],
+                        [["a", "a"],           "a",    []],
+                        [["a", "b"],           null,   ["a", "b"]]
+                ]
+        ].combinations()
+
+        list     = data[0]
+        value    = data[1]
+        expected = data[2]
     }
 
-    def "kotlin: remove value from list of Strings"() {
+    def "#impl: remove value from list of Persons"() {
         expect:
-        Day13Kt.removeValueFromList(value, list) == expected
+        removeValueFromList(impl as String, value, list as List) == expected
 
         where:
-        list                          | value || expected
-        []                            | "a"   || []
-        ["a", "b", "a", "c"]          | "a"   || ["b", "c"]
-        ["x", "y"]                    | "z"   || ["x", "y"]
-        ["a", "a"]                    | "a"   || []
-        []                            | null  || []
+        [impl, data] << [
+                ['java','kotlin','groovy'],
+                [
+                        // list                                                                                                       | value                              || expected
+                        [[new Person("Alice", 30), new Person("Bob", 25), new Person("Alice", 30)],   new Person("Alice", 30),   [new Person("Bob", 25)]],
+                        [[],                                                                                                          new Person("Alice", 30),   []],
+                        [[new Person("Alice", 30), new Person("Alice", 30), new Person("Bob", 25)],   new Person("Alice", 30),   [new Person("Bob", 25)]],
+                        [[new Person("Alice", 30), new Person("Bob", 25), new Person("Alice", 30)],   new Person("Bob", 25),     [new Person("Alice", 30), new Person("Alice", 30)]],
+                        [[null],                                                                                                      new Person("Alice", 30),   [null]]
+                ]
+        ].combinations()
 
-    }
-
-    @Unroll("Iteration #iterationIndex of kotlin Persons test")
-    def "kotlin: remove value from list of Persons"() {
-        expect:
-        Day13Kt.removeValueFromList(value, list) == expected
-
-        where:
-        list                       | value || expected
-        [p1, p2, p3]               | p1    || [p2]
-        []                         | p1    || []
-        [p1, p1, p2]               | p1    || [p2]
-        [p1, p2, p3]               | p2    || [p1, p3]
-        [null, p3]                 | null  || [p3]
-    }
-
-    def "groovy: remove value from list of Integers"() {
-        expect:
-        Day13Groovy.removeValueFromList(value, list) == expected
-
-        where:
-        list                         | value || expected
-        [0, 2, 2, 3]                 | 2     || [0, 3]
-        [9, 8, 9, 7]                 | 9     || [8, 7]
-        [1, 1, 1, 1, 1]              | 1     || []
-        [null, 1, null, 2]           | null  || [1, 2]
-        [null, null]                 | null  || []
-
-    }
-
-    @Unroll("Iteration #iterationIndex of groovy Persons test")
-    def "groovy: remove value from list of Persons"() {
-        expect:
-        Day13Groovy.removeValueFromList(value, list) == expected
-
-        where:
-        list                          | value || expected
-        [p2, p1, p3, p1]              | p1    || [p2]
-        [p3, p3, p2, p1, p2]          | p3    || [p2, p2]
-        [null, null]                  | p1    || [null, null]
+        list     = data[0]
+        value    = data[1]
+        expected = data[2]
     }
 
 }
