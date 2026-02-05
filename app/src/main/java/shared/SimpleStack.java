@@ -2,6 +2,14 @@ package shared;
 
 import java.util.NoSuchElementException;
 
+/**
+ * A simple LIFO stack interface.
+ *
+ * Two public constants, {@code BLOCK} and {@code MAX_BLOCK},
+ * are provided as sizing hints for internal storage strategies.
+ *
+ * @param <E> the type of elements held in this stack
+ */
 public interface SimpleStack<E> {
 
     int BLOCK = 100;

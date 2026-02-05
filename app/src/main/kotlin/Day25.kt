@@ -1,3 +1,3 @@
 import shared.SimpleStack
 
-fun <E> getSimpleStack(): SimpleStack<E?>? = null
+fun <E> getSimpleStack(): SimpleStack<E>? = null
