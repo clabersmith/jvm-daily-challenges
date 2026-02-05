@@ -56,7 +56,7 @@ class Day25Spec extends Specification {
         [factory: { -> Day25Groovy.getSimpleStack() }, name: 'groovy']
     ]
 
-    def "stack basic push/pop and isEmpty behavior (impl: #factoryRow.name)"() {
+    def "#factoryRow.name: stack basic push/pop and isEmpty behavior"() {
         given:
         def stack = factoryRow.factory()
 
@@ -74,7 +74,7 @@ class Day25Spec extends Specification {
         factoryRow << factories
     }
 
-    def "peek does not remove top element (impl: #factoryRow.name)"() {
+    def "#factoryRow.name: peek does not remove top element"() {
         given:
         def stack = factoryRow.factory()
 
@@ -92,7 +92,7 @@ class Day25Spec extends Specification {
         factoryRow << factories
     }
 
-    def "pop and peek on empty stack throw NoSuchElementException (impl: #factoryRow.name)"() {
+    def "#factoryRow.name: pop and peek on empty stack throw NoSuchElementException"() {
         given:
         def stack = factoryRow.factory()
 
@@ -112,7 +112,7 @@ class Day25Spec extends Specification {
         factoryRow << factories
     }
 
-    def "stack grows dynamically when pushing many elements (impl: #factoryRow.name)"() {
+    def "#factoryRow.name: stack grows dynamically when pushing many elements"() {
         given:
         def stack = factoryRow.factory()
         int count = 200
@@ -136,7 +136,7 @@ class Day25Spec extends Specification {
         factoryRow << factories
     }
 
-    def "pushing beyond max size throws IllegalStateException (impl: #factoryRow.name)"() {
+    def "#factoryRow.name: pushing beyond max size throws IllegalStateException"() {
         given:
         def stack = factoryRow.factory()
 

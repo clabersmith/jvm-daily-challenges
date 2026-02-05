@@ -3,7 +3,7 @@ import shared.SimpleStack.BLOCK
 import shared.SimpleStack.MAX_BLOCK
 
 // JVM-visible wrapper
-fun getSimpleStack(): SimpleStack<Any?> = getSimpleStackInline()
+fun getSimpleStack(): SimpleStack<Any> = getSimpleStackInline()
 
 inline fun <reified E> getSimpleStackInline(): SimpleStack<E> {
     return object : SimpleStack<E> {
