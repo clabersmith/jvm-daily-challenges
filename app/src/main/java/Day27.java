@@ -1,7 +1,7 @@
 import shared.ListNode;
 
 public class Day27 {
-    public static boolean hasCycle(ListNode head) {
+    public static <E> boolean hasCycle(ListNode<E> head) {
         return false;
     }
 }

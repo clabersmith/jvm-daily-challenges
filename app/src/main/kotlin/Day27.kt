@@ -1,5 +1,5 @@
 import shared.ListNode
 
-fun hasCycle(head: ListNode?): Boolean {
+fun <E> hasCycle(head: ListNode<E>?): Boolean {
     return false
 }
