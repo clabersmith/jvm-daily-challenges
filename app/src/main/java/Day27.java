@@ -1,10 +1,11 @@
 import shared.ListNode;
 
 public class Day27 {
-    public static boolean hasCycle(ListNode head) {
+
+    public static <E> boolean hasCycle(ListNode<E> head) {
         //Floyd Tortoise and Hair algorithm for O(1) space, using two pointers
-        ListNode slow = head;
-        ListNode fast = head;
+        ListNode<E> slow = head;
+        ListNode<E> fast = head;
 
         //loop while both pointers are inside the linked list
         while(fast != null && fast.getNext() != null) {

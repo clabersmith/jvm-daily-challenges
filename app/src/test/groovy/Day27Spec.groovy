@@ -47,8 +47,8 @@ class Day27Spec extends Specification {
     @Shared
     def factories = [
         [factory: { listNode -> Day27.hasCycle(listNode) }, name: 'java'],
-        [factory: { list -> Day27Kt.hasCycle(list) }, name: 'kotlin'],
-        [factory: { list -> Day27Groovy.hasCycle(list) }, name: 'groovy']
+        [factory: { listNode -> Day27Kt.hasCycle(listNode) }, name: 'kotlin'],
+        [factory: { listNode -> Day27Groovy.hasCycle(listNode) }, name: 'groovy']
     ]
 
     def "#factoryRow.name: detects no cycle for acyclic list"() {

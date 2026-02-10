@@ -1,18 +1,26 @@
 package shared;
 
-public class ListNode {
-    int value;
-    ListNode next;
+public class  ListNode<E> {
+    E value;
+    ListNode<E> next;
 
-    public ListNode(int val) {
+    public E getValue() {
+        return value;
+    }
+
+    public void setValue(E value) {
+        this.value = value;
+    }
+
+    public ListNode(E val) {
         this.value = val;
     }
 
-    public void setNext(ListNode next) {
+    public void setNext(ListNode<E> next) {
         this.next = next;
     }
 
-    public ListNode getNext() {
+    public ListNode<E> getNext() {
         return next;
     }
 
