@@ -5,16 +5,9 @@ public class TreeNode {
     private TreeNode left;
     private TreeNode right;
 
-    public TreeNode() {}
 
     public TreeNode(int value) {
         this.value = value;
-    }
-
-    public TreeNode(int value, TreeNode left, TreeNode right) {
-        this.value = value;
-        setLeft(left);
-        setRight(right);
     }
 
     public int getValue() { return value; }
@@ -33,8 +26,7 @@ public class TreeNode {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TreeNode)) return false;
-        TreeNode node = (TreeNode) o;
+        if (!(o instanceof TreeNode node)) return false;
         return value == node.value;
     }
 
